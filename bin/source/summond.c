@@ -26,7 +26,30 @@ static int create_daemon()
     // 9. Return to main
     // DO NOT PRINT ANYTHING TO THE OUTPUT
     /***** BEGIN ANSWER HERE *****/
-
+    pid_t fpid;
+    fpid = fork();
+    if (fpid < 0){exit(1);}
+    if (fpid > 0){exit(0);}
+    if (setsid() < 0){exit(1);}
+     
+    signal(SIGCHLD, SIG_IGN);
+    signal(SIGHUP, SIG_IGN);
+    
+    fpid = fork();
+    if (fpid < 0){exit(1);}
+    if (fpid > 0){exit(0);}
+    umask(0);
+    chdir("/");
+    int x;
+    for (x = sysconf(_SC_OPEN_MAX); x>=0; x--){
+        if(x == 0) {
+           close(x); 
+           x = open("/dev/null", O_RDWR);
+       } else if (x == 1 || x == 2) {
+           close(x);
+           dup(0);
+       }
+   }
     /*********************/
 
     return 0;
@@ -42,7 +65,7 @@ static int daemon_work()
     fptr = fopen(output_file_path, "a");
     if (fptr == NULL)
     {
-        return EXIT_FAILURE;
+        return 1;
     }
 
     fprintf(fptr, "%d with FD %d\n", getpid(), fileno(fptr));
@@ -55,7 +78,7 @@ static int daemon_work()
 
         if (fptr == NULL)
         {
-            return EXIT_FAILURE;
+            return 1;
         }
 
         fprintf(fptr, "PID %d Daemon writing line %d to the file.  \n", getpid(), num);
