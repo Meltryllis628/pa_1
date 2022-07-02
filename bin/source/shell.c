@@ -183,6 +183,11 @@ char *read_line_stdin(void)
   char *line = malloc(sizeof(char) * buf_size); // allocate memory space for the line*
   /** TASK 1 **/
   // read one line from stdin using getline()
+  if(line == NULL) {
+    exit(1);
+  }
+  buf_size = getline(&line,&buf_size,stdin);
+  
   // 1. Check that the char* returned by malloc is not NULL
   // 2. Fetch an entire line from input stream stdin using getline() function. getline() will store user input onto the memory location allocated in (1)
   // 3. Return the char*
@@ -264,8 +269,15 @@ void main_loop(void)
     /*********************/
   } while (status);
 }
-
 int main(int argc, char **argv)
+{
+ 
+ char* line = read_line_stdin();
+ printf("The fetched line is : %s \n", line);
+ 
+ return 0;
+}
+/* int main(int argc, char **argv)
 {
 
   printf("CSEShell Run successful. Running now: \n");
@@ -286,3 +298,4 @@ int main(int argc, char **argv)
 
   return 0;
 }
+ */
