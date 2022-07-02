@@ -165,16 +165,16 @@ int process_command(char **args)
   }
   
   if (!strcmp(args[0],"cd")){
-    shell_cd(args);
+    return(shell_cd(args));
   }
   else if (!strcmp(args[0],"help")){
-    shell_help(args);
+    return(shell_help(args));
     }
   else if (!strcmp(args[0],"exit")){
-    shell_exit(args);
+    return(shell_exit(args));
     }
   else if (!strcmp(args[0],"args")){
-    shell_usage(args);
+    return(shell_usage(args));
     }
   else{
     pid_t pid;
@@ -280,11 +280,11 @@ void main_loop(void)
   /** TASK 4 **/
   // write a loop where you do the following:
   // 1. invoke read_line_stdin() and store the output at line
-  line = read_line_stdin();
+ 
   // 2. invoke tokenize_line_stdin(line) and store the output at args**
-  args = tokenize_line_stdin(line);
+  
   // 3. execute the tokens using process_command(args)
-  status = process_command(args);
+  
   // Basic cleanup for the next loop
   // 4. free memory location containing the strings of characters
   // 5. free memory location containing char* to the first letter of each word in the input string
@@ -308,38 +308,15 @@ void main_loop(void)
     fflush(stdout); // clear the buffer and move the output to the console using fflush
 
     /***** BEGIN ANSWER HERE *****/
-    status = shell_exit(args); // remove this line when you work on this task
-
+    line = read_line_stdin(); // remove this line when you work on this task
+    args = tokenize_line_stdin(line);
+    status = process_command(args);
+    free(line);
+    free(args);
     /*********************/
   } while (status);
 }
 int main(int argc, char **argv)
-{
-
-  printf("Shell Run successful. Running now: \n");
-
-  char *line = read_line_stdin();
-  printf("The fetched line is : %s \n", line);
-
-  char **args = tokenize_line_stdin(line);
-  printf("The first token is %s \n", args[0]);
-  printf("The second token is %s \n", args[1]);
-
-  // Setup path
-  if (getcwd(output_file_path, sizeof(output_file_path)) != NULL)
-  {
-    printf("Current working dir: %s\n", output_file_path);
-  }
-  else
-  {
-    perror("getcwd() error, exiting now.");
-    return 1;
-  }
-  process_command(args);
-
-  return 0;
-}
-/* int main(int argc, char **argv)
 {
 
   printf("CSEShell Run successful. Running now: \n");
@@ -360,4 +337,3 @@ int main(int argc, char **argv)
 
   return 0;
 }
- */
