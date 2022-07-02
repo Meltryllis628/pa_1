@@ -158,6 +158,9 @@ int process_command(char **args)
   /** TASK 3 **/
 
   // 1. Check if args[0] is NULL. If it is, an empty command is entered, return 1
+  if(args[0] == NULL) {
+    return(1);
+  }
   // 2. Otherwise, check if args[0] is in any of our builtin_commands: cd, help, exit, or usage.
   // 3. If conditions in (2) are satisfied, call builtin shell commands, otherwise perform fork() to exec the system program. Check if fork() is successful.
   // 4. For the child process, call exec_sys_prog(args) to execute the matching system program. exec_sys_prog is already implemented for you.
