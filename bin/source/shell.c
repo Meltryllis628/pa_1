@@ -156,7 +156,7 @@ int process_command(char **args)
 {
   int child_exit_status = -1;
   /** TASK 3 **/
-
+  
   // 1. Check if args[0] is NULL. If it is, an empty command is entered, return 1
   if(args[0] == NULL) {
     return(1);
