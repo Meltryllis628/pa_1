@@ -211,10 +211,19 @@ char **tokenize_line_stdin(char *line)
   int buf_size = SHELL_BUFFERSIZE, position = 0;     // assume there's also BUFFERSIZE amount of token, which is certainly enough because there's only BUFFERSIZE amount of chars
   char **tokens = malloc(buf_size * sizeof(char *)); // an array of pointers to the first char that marks a token in line
   char *token;
-
+  if(tokens == NULL) {
+    exit(1);
+  }
   /** TASK 2 **/
   // 1. Check that char ** that is returned by malloc is not NULL
+  token = strtok(line,SHELL_INPUT_DELIM);
+  int i = 0;
   // 2. Tokenize the input *line using strtok() function
+  while(token != NULL){
+    tokens[i] = token;
+    i++;
+    token = strtok(NULL,SHELL_INPUT_DELIM);
+  }
   // 3. Store the address to first letter of each word in the command in tokens
   // 4. Add NULL termination in tokens so we know how many "valid" addresses there are in tokens
   /***** BEGIN ANSWER HERE *****/
@@ -272,8 +281,14 @@ void main_loop(void)
 int main(int argc, char **argv)
 {
  
+ printf("Shell Run successful. Running now: \n");
+ 
  char* line = read_line_stdin();
  printf("The fetched line is : %s \n", line);
+ 
+ char** args = tokenize_line_stdin(line);
+ printf("The first token is %s \n", args[0]);
+ printf("The second token is %s \n", args[1]);
  
  return 0;
 }
