@@ -158,10 +158,40 @@ int process_command(char **args)
   /** TASK 3 **/
   
   // 1. Check if args[0] is NULL. If it is, an empty command is entered, return 1
-  if(args[0] == NULL) {
+
+  // 2. Otherwise, check if args[0] is in any of our builtin_commands: cd, help, exit, or usage.
+  if (args[0] == NULL){
     return(1);
   }
-  // 2. Otherwise, check if args[0] is in any of our builtin_commands: cd, help, exit, or usage.
+  
+  if (!strcmp(args[0],"cd")){
+    shell_cd(args);
+  }
+  else if (!strcmp(args[0],"help")){
+    shell_help(args);
+    }
+  else if (!strcmp(args[0],"exit")){
+    shell_exit(args);
+    }
+  else if (!strcmp(args[0],"args")){
+    shell_usage(args);
+    }
+  else{
+    pid_t pid;
+    pid=fork();
+    if (pid<0){
+      return(1);}
+    else if (pid == 0){
+      exec_sys_prog(args);
+      }
+    else{
+      int status;
+      waitpid(pid, &status, WUNTRACED);        
+      if (WIFEXITED(status)){
+        child_exit_status = WEXITSTATUS(status);
+      }
+    }
+  }
   // 3. If conditions in (2) are satisfied, call builtin shell commands, otherwise perform fork() to exec the system program. Check if fork() is successful.
   // 4. For the child process, call exec_sys_prog(args) to execute the matching system program. exec_sys_prog is already implemented for you.
   // 5. For the parent process, wait for the child process to complete and fetch the child's exit status value to child_exit_status
@@ -250,9 +280,11 @@ void main_loop(void)
   /** TASK 4 **/
   // write a loop where you do the following:
   // 1. invoke read_line_stdin() and store the output at line
+  line = read_line_stdin();
   // 2. invoke tokenize_line_stdin(line) and store the output at args**
+  args = tokenize_line_stdin(line);
   // 3. execute the tokens using process_command(args)
-
+  status = process_command(args);
   // Basic cleanup for the next loop
   // 4. free memory location containing the strings of characters
   // 5. free memory location containing char* to the first letter of each word in the input string
@@ -283,17 +315,29 @@ void main_loop(void)
 }
 int main(int argc, char **argv)
 {
- 
- printf("Shell Run successful. Running now: \n");
- 
- char* line = read_line_stdin();
- printf("The fetched line is : %s \n", line);
- 
- char** args = tokenize_line_stdin(line);
- printf("The first token is %s \n", args[0]);
- printf("The second token is %s \n", args[1]);
- 
- return 0;
+
+  printf("Shell Run successful. Running now: \n");
+
+  char *line = read_line_stdin();
+  printf("The fetched line is : %s \n", line);
+
+  char **args = tokenize_line_stdin(line);
+  printf("The first token is %s \n", args[0]);
+  printf("The second token is %s \n", args[1]);
+
+  // Setup path
+  if (getcwd(output_file_path, sizeof(output_file_path)) != NULL)
+  {
+    printf("Current working dir: %s\n", output_file_path);
+  }
+  else
+  {
+    perror("getcwd() error, exiting now.");
+    return 1;
+  }
+  process_command(args);
+
+  return 0;
 }
 /* int main(int argc, char **argv)
 {
