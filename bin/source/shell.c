@@ -313,7 +313,7 @@ void main_loop(void)
     status = process_command(args);
     free(line);
     free(args);
-    /*********************/
+    /*1********************/
   } while (status);
 }
 int main(int argc, char **argv)
