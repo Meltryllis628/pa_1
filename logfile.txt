@@ -20,3 +20,58 @@ PID 15892 Daemon writing line 6 to the file.
 PID 15892 Daemon writing line 7 to the file.  
 PID 15892 Daemon writing line 8 to the file.  
 PID 15892 Daemon writing line 9 to the file.  
+17694 with FD 3
+PID 17694 Daemon writing line 0 to the file.  
+17706 with FD 3
+PID 17706 Daemon writing line 0 to the file.  
+17735 with FD 3
+PID 17735 Daemon writing line 0 to the file.  
+PID 17694 Daemon writing line 1 to the file.  
+PID 17706 Daemon writing line 1 to the file.  
+17821 with FD 3
+PID 17821 Daemon writing line 0 to the file.  
+PID 17735 Daemon writing line 1 to the file.  
+17830 with FD 3
+PID 17830 Daemon writing line 0 to the file.  
+PID 17694 Daemon writing line 2 to the file.  
+PID 17706 Daemon writing line 2 to the file.  
+PID 17821 Daemon writing line 1 to the file.  
+PID 17735 Daemon writing line 2 to the file.  
+PID 17830 Daemon writing line 1 to the file.  
+PID 17694 Daemon writing line 3 to the file.  
+PID 17706 Daemon writing line 3 to the file.  
+PID 17821 Daemon writing line 2 to the file.  
+PID 17735 Daemon writing line 3 to the file.  
+PID 17830 Daemon writing line 2 to the file.  
+PID 17694 Daemon writing line 4 to the file.  
+PID 17706 Daemon writing line 4 to the file.  
+PID 17821 Daemon writing line 3 to the file.  
+PID 17735 Daemon writing line 4 to the file.  
+PID 17830 Daemon writing line 3 to the file.  
+PID 17694 Daemon writing line 5 to the file.  
+PID 17706 Daemon writing line 5 to the file.  
+PID 17821 Daemon writing line 4 to the file.  
+PID 17735 Daemon writing line 5 to the file.  
+PID 17830 Daemon writing line 4 to the file.  
+PID 17694 Daemon writing line 6 to the file.  
+PID 17706 Daemon writing line 6 to the file.  
+PID 17821 Daemon writing line 5 to the file.  
+PID 17735 Daemon writing line 6 to the file.  
+PID 17830 Daemon writing line 5 to the file.  
+PID 17694 Daemon writing line 7 to the file.  
+PID 17706 Daemon writing line 7 to the file.  
+PID 17821 Daemon writing line 6 to the file.  
+PID 17735 Daemon writing line 7 to the file.  
+PID 17830 Daemon writing line 6 to the file.  
+PID 17694 Daemon writing line 8 to the file.  
+PID 17706 Daemon writing line 8 to the file.  
+PID 17821 Daemon writing line 7 to the file.  
+PID 17735 Daemon writing line 8 to the file.  
+PID 17830 Daemon writing line 7 to the file.  
+PID 17694 Daemon writing line 9 to the file.  
+PID 17706 Daemon writing line 9 to the file.  
+PID 17821 Daemon writing line 8 to the file.  
+PID 17735 Daemon writing line 9 to the file.  
+PID 17830 Daemon writing line 8 to the file.  
+PID 17821 Daemon writing line 9 to the file.  
+PID 17830 Daemon writing line 9 to the file.  
