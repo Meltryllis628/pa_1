@@ -32,7 +32,7 @@ int execute(char **args)
       number_of_lines++;
     }
     free(buffer);
-    /*********************/
+    /*5********************/
     fclose(fp); // close file.
     printf("%d \t %s \n", number_of_lines, args[1]);
     return 1;
