@@ -35,7 +35,7 @@ int execute()
      live_daemons++;
     }
    free(buffer);
-   /*7********************/
+   /*7***7*****************/
    if (live_daemons == 0)
       printf("No daemon is alive right now.\n");
    else
