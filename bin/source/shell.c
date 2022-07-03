@@ -173,7 +173,7 @@ int process_command(char **args)
   else if (!strcmp(args[0],"exit")){
     return(shell_exit(args));
     }
-  else if (!strcmp(args[0],"args")){
+  else if (!strcmp(args[0],"usage")){
     return(shell_usage(args));
     }
   else{
@@ -250,11 +250,11 @@ char **tokenize_line_stdin(char *line)
   /** TASK 2 **/
   // 1. Check that char ** that is returned by malloc is not NULL
   token = strtok(line,SHELL_INPUT_DELIM);
-  int i = 0;
+  current_number_tokens = 0;
   // 2. Tokenize the input *line using strtok() function
   while(token != NULL){
-    tokens[i] = token;
-    i++;
+    tokens[current_number_tokens] = token;
+    current_number_tokens++;
     token = strtok(NULL,SHELL_INPUT_DELIM);
   }
   // 3. Store the address to first letter of each word in the command in tokens
