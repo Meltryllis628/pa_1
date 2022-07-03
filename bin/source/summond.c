@@ -31,7 +31,7 @@ static int create_daemon()
     if (pid < 0) {            
         exit(1);               
     } else if (pid) {        
-        exit(0);
+        exit(1);
     }  
     if (setsid() < 0) {       
         exit(1);
@@ -42,7 +42,7 @@ static int create_daemon()
     if (pid < 0) {            
         exit(1);               
     } else if (pid) {
-        exit(0);
+        exit(1);
     }  
     umask(0);
     chdir("/");
