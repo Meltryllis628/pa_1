@@ -42,19 +42,12 @@ def main(args):
         print("Connected")
 
         while True:
-<<<<<<< HEAD
-            filename = input(
-                "Enter a filename to send (enter -1 to exit):"
-            ).strip()
 
-            while filename != "-1" and (not pathlib.Path(filename).is_file()):
-                filename = input("Invalid filename. Please try again:").strip()
-=======
             filename = input("Enter a filename to send (enter -1 to exit):")
 
             while filename != "-1" and (not pathlib.Path(filename).is_file()):
                 filename = input("Invalid filename. Please try again:")
->>>>>>> feat: first mass commit
+
 
             if filename == "-1":
                 s.sendall(convert_int_to_bytes(2))
@@ -79,11 +72,7 @@ def main(args):
         print("Closing connection...")
 
     end_time = time.time()
-<<<<<<< HEAD
     print(f"Program took {end_time - start_time}s to run.")
-=======
-    print(f"Program took {(end_time - start_time) / 100000}ms to run.")
->>>>>>> feat: first mass commit
 
 
 if __name__ == "__main__":
