@@ -167,16 +167,15 @@ int process_command(char **args)
   if (!strcmp(args[0],"cd")){
     return(shell_cd(args));
   }
-  else if (!strcmp(args[0],"help")){
+  if (!strcmp(args[0],"help")){
     return(shell_help(args));
     }
-  else if (!strcmp(args[0],"exit")){
+  if (!strcmp(args[0],"exit")){
     return(shell_exit(args));
     }
-  else if (!strcmp(args[0],"usage")){
+  if (!strcmp(args[0],"usage")){
     return(shell_usage(args));
     }
-  else{
     pid_t pid;
     pid=fork();
     if (pid<0){
@@ -191,7 +190,6 @@ int process_command(char **args)
         child_exit_status = WEXITSTATUS(status);
       }
     }
-  }
   // 3. If conditions in (2) are satisfied, call builtin shell commands, otherwise perform fork() to exec the system program. Check if fork() is successful.
   // 4. For the child process, call exec_sys_prog(args) to execute the matching system program. exec_sys_prog is already implemented for you.
   // 5. For the parent process, wait for the child process to complete and fetch the child's exit status value to child_exit_status
@@ -312,8 +310,8 @@ void main_loop(void)
     line = read_line_stdin(); // remove this line when you work on this task
     args = tokenize_line_stdin(line);
     status = process_command(args);
-    free(line);
     free(args);
+    free(line);
     /*1*2*3*4*****************/
   } while (status);
 }
