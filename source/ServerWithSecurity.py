@@ -160,18 +160,13 @@ def main(args):
                             encrypted_file_data = sign(pri,file_data)
                             client_socket.sendall(convert_int_to_bytes(len(encrypted_file_data)))
                             print("->")
-                            print(len(encrypted_file_data))
+                            print(file_data)
                             client_socket.sendall(encrypted_file_data)
-                            print("->")
-                            print(encrypted_file_data)
                             with open("../source/auth/server_signed.crt","rb")as file:
                                 certification = file.read()
                             client_socket.sendall(convert_int_to_bytes(len(certification)))
-                            print("->")
                             print(len(certification))
                             client_socket.sendall(certification)
-                            print("->")
-                            print(certification)
 
     except Exception as e:
         print(e)

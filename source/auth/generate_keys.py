@@ -49,8 +49,4 @@ csr = (
 
 # Write our CSR out to disk.
 with open(suffix + "_certificate_request.csr", "wb") as f:
-<<<<<<< HEAD
     f.write(csr.public_bytes(serialization.Encoding.PEM))
-=======
-    f.write(csr.public_bytes(serialization.Encoding.PEM))
->>>>>>> feat: first mass commit
