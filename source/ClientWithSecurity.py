@@ -151,16 +151,21 @@ def main(args):
         # print(received_message2)
         with open("../source/auth/cacsertificate.crt","rb")as file:
             certification = file.read()
-        if not vertify_ca(certification,received_message2):
+        v1 = vertify_ca(certification,received_message2)
+        if not v1:
             s.sendall(convert_int_to_bytes(2))
-        pub,valid = public_key(received_message2)
-        if not valid:
+            print("CA verification fails. Closing connection...")
+        pub,v2 = public_key(received_message2)
+        if not v2:
             s.sendall(convert_int_to_bytes(2))
+            print("Verification out of date. Closing connection...")
         signature = encrypted_received_message1
-        if not vertify(signature,pub,arbitrary_message):
+        v3 = vertify(signature,pub,arbitrary_message)
+        if not v3:
             s.sendall(convert_int_to_bytes(2))
+            print("Signature can't be verified. Closing connection...")
  
-        while True:
+        while v1 or v2 or v3:
             # arbitrary_message = b"assume this is an arbitraray message"
             # s.sendall(convert_int_to_bytes(3))
             # s.sendall(convert_int_to_bytes(len(arbitrary_message)))
