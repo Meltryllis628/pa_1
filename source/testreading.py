@@ -73,11 +73,54 @@ def vertify(signature,public_key,path):
         except Exception as e:
             return False
 
+def encrypt(message,public_key):
+    BLOCK_LENGTH = 62
+    length = len(message)
+    pos = 0
+    encrypted_message = []
+    while(pos<length):
+        if(pos+BLOCK_LENGTH<length):
+            message_block=message[pos:pos+BLOCK_LENGTH]
+        else:
+            message_block=message[pos:]
+        encrypted_message_block = public_key.encrypt(
+            message_block,
+            padding.OAEP(
+                mgf=padding.MGF1(hashes.SHA256()),
+                algorithm=hashes.SHA256(),
+                label=None,
+            ),
+        )
+        pos+=BLOCK_LENGTH
+        encrypted_message.append(encrypted_message_block)
+    return encrypted_message
+
+def decrypt(encrypted_message,private_key):
+    decrypted_message = private_key.decrypt(
+      encrypted_message, # in bytes
+      padding.OAEP(      # padding should match whatever used during encryption
+          mgf=padding.MGF1(hashes.SHA256()),
+          algorithm=hashes.SHA256(),
+          label=None,
+        ),
+    )
+    return decrypted_message,len(decrypted_message)
+
 pri = load_private_key("../source/auth/_private_key.pem")
 pub,valid = load_public_key("../source/auth/server_signed.crt")
-kca = load_public_key("../source/auth/cacsertificate.crt")
-vertify("dick",kca,"../source/files/file.txt")
-sig = sign(pri,"../source/files/file.txt")
-result = vertify(sig,pub,"../source/files/file.txt")
-print(result)
+# kca = load_public_key("../source/auth/cacsertificate.crt")
+# vertify("dick",kca,"../source/files/file.txt")
+# sig = sign(pri,"../source/files/file.txt")
+# result = vertify(sig,pub,"../source/files/file.txt")
+# print(result)
 
+path = "files/file.txt"
+with open(path,"rb")as file:
+    message = bytes(file.read())
+print(message)
+blklist = encrypt(message,pub)
+print(blklist)
+for blk in blklist:
+    dec_mes,len2 = decrypt(blk,pri)
+    print(dec_mes)
+    print(len2)

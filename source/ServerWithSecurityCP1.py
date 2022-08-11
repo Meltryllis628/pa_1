@@ -13,6 +13,28 @@ from cryptography.hazmat.primitives import hashes, serialization
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.backends import default_backend
 
+def encrypt(message,public_key):
+    encrypted_message = public_key.encrypt(
+        message,
+        padding.OAEP(
+            mgf=padding.MGF1(hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None,
+        ),
+    )
+    return encrypted_message
+
+def decrypt(encrypted_message,private_key):
+    decrypted_message = private_key.decrypt(
+      encrypted_message, # in bytes
+      padding.OAEP(      # padding should match whatever used during encryption
+          mgf=padding.MGF1(hashes.SHA256()),
+          algorithm=hashes.SHA256(),
+          label=None,
+        ),
+    )
+    return decrypted_message
+
 def load_private_key(path):
     with open(path,"rb")as file:
         #certification = x509.load_pem_x509_certificate(file.read())
@@ -99,6 +121,7 @@ def read_bytes(socket, length):
 
     return b"".join(buffer)
 
+pri = None
 
 def main(args):
     port = int(args[0]) if len(args) > 0 else 4321
@@ -126,13 +149,19 @@ def main(args):
                         case 1:
                             # If the packet is for transferring a chunk of the file
                             start_time = time.time()
-
-                            file_len = convert_bytes_to_int(
+                            file_data = b""
+                            file_len = 0
+                            block_num = convert_bytes_to_int(
                                 read_bytes(client_socket, 8)
                             )
-                            file_data = read_bytes(client_socket, file_len)
-                            # print(file_data)
-
+                            for i in range(block_num):
+                                file_len = convert_bytes_to_int(
+                                    read_bytes(client_socket, 8)
+                                )
+                                block_encrypted = read_bytes(client_socket, file_len)
+                                # print(file_data)
+                                block_data = decrypt(block_encrypted,pri)
+                                file_data += block_data
                             filename = "recv_" + filename.split("/")[-1]
 
                             # Write the file with 'recv_' prefix
