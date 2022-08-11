@@ -165,7 +165,7 @@ def main(args):
             s.sendall(convert_int_to_bytes(2))
             print("Signature can't be verified. Closing connection...")
  
-        while v1 or v2 or v3:
+        while v1 and v2 and v3:
             # arbitrary_message = b"assume this is an arbitraray message"
             # s.sendall(convert_int_to_bytes(3))
             # s.sendall(convert_int_to_bytes(len(arbitrary_message)))
