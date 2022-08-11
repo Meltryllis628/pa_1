@@ -153,17 +153,14 @@ def main(args):
             certification = file.read()
         v1 = vertify_ca(certification,received_message2)
         if not v1:
-            s.sendall(convert_int_to_bytes(2))
-            print("CA verification fails. Closing connection...")
+            print("CA verification fails.")
         pub,v2 = public_key(received_message2)
         if not v2:
-            s.sendall(convert_int_to_bytes(2))
-            print("Verification out of date. Closing connection...")
+            print("Verification out of date.")
         signature = encrypted_received_message1
         v3 = vertify(signature,pub,arbitrary_message)
         if not v3:
-            s.sendall(convert_int_to_bytes(2))
-            print("Signature can't be verified. Closing connection...")
+            print("Signature can't be verified.")
  
         while v1 and v2 and v3:
             # arbitrary_message = b"assume this is an arbitraray message"
