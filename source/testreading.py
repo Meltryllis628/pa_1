@@ -1,6 +1,7 @@
 import pathlib
 import socket
 import sys
+from this import d
 import time
 from datetime import datetime
 import secrets
@@ -106,6 +107,10 @@ def decrypt(encrypted_message,private_key):
     )
     return decrypted_message,len(decrypted_message)
 
+def gen_sym_key():
+    session_key_bytes = Fernet.generate_key() # generates 128-bit symmetric key as bytes
+    return session_key_bytes
+
 pri = load_private_key("../source/auth/_private_key.pem")
 pub,valid = load_public_key("../source/auth/server_signed.crt")
 # kca = load_public_key("../source/auth/cacsertificate.crt")
@@ -114,13 +119,21 @@ pub,valid = load_public_key("../source/auth/server_signed.crt")
 # result = vertify(sig,pub,"../source/files/file.txt")
 # print(result)
 
-path = "files/file.txt"
-with open(path,"rb")as file:
-    message = bytes(file.read())
+# path = "files/file.txt"
+# with open(path,"rb")as file:
+#     message = bytes(file.read())
+message=gen_sym_key()
+data = b"miyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaolimiyushuoidedaoli"
 print(message)
+print(len(message))
 blklist = encrypt(message,pub)
 print(blklist)
 for blk in blklist:
     dec_mes,len2 = decrypt(blk,pri)
     print(dec_mes)
     print(len2)
+sym_key = Fernet(message)
+enc = sym_key.encrypt(data)
+dec = sym_key.decrypt(enc)
+print(enc)
+print(dec)
