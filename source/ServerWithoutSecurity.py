@@ -93,9 +93,6 @@ def main(args):
                             print("Closing connection...")
                             s.close()
                             break
-                        case 3:
-                            
-                            pass
 
     except Exception as e:
         print(e)
