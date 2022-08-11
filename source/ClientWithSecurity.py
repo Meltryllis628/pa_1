@@ -86,6 +86,21 @@ def vertify(signature,public_key,file_data):
     except Exception as e:
         return False
 
+def vertify_ca(ca_cert_bytes,server_cert_bytes):
+    ca_cert = x509.load_pem_x509_certificate(ca_cert_bytes)
+    server_cert = x509.load_pem_x509_certificate(server_cert_bytes)
+    ca_public_key = ca_cert.public_key()
+    try:
+        ca_public_key.verify(
+                signature=server_cert.signature, # signature bytes to  verify
+                data=server_cert.tbs_certificate_bytes, # certificate data bytes that was signed by CA
+                padding=padding.PKCS1v15(), # padding used by CA bot to sign the the server's csr
+                algorithm=server_cert.signature_hash_algorithm,
+            )
+        return True
+    except Exception as e:
+        return False
+
 def convert_int_to_bytes(x):
     """
     Convenience function to convert Python integers to a length-8 byte representation
@@ -134,6 +149,10 @@ def main(args):
         received_message2 = read_bytes(s,received_message2_length)
         # print("->")
         # print(received_message2)
+        with open("../source/auth/cacsertificate.crt","rb")as file:
+            certification = file.read()
+        if not vertify_ca(certification,received_message2):
+            s.sendall(convert_int_to_bytes(2))
         pub,valid = public_key(received_message2)
         if not valid:
             s.sendall(convert_int_to_bytes(2))
